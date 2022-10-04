@@ -1,0 +1,24 @@
+{% extends "catalog/base.html" %}
+{% block content%}
+
+<h3>{{name}}</h3>
+<p>Автор: {{author}}</p>
+<p>Жанр: </p>
+{% for genre in genres.all %}
+<li>{{ genre }}</li>
+{% endfor %}
+<p>О книге:</p>
+<p>{{descript}}</p>
+<p>Файл для скачивания: {{file}}</p>
+
+<!-- <ul>
+    {% for book in books %}
+
+    <li>
+        <a href="{% url 'catalog:book' book.id %}">{{ book }}</a>
+    </li>
+    {% empty %}
+    <li>Книги еще не добавлены</li>
+    {% endfor %}
+</ul> -->
+{% endblock content %}
