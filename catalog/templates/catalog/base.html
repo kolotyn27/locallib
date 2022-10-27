@@ -1,12 +1,68 @@
-<p>
-    <a href="{% url 'catalog:index' %}"> Библиотека онлайн</a>
-    <a href="{% url 'catalog:books' %}"> Книги</a>
-    {% if user.is_authenticated %}
-    Hello, {{ user.username }}.
-    <a href="{% url 'users:logout' %}">Выйти</a>
-    {% else %}
-    <a href="{% url 'users:register' %}">Зарегистрироваться</a>
-    <a href="{% url 'users:login' %}">Войти</a>
-    {% endif %}
-</p>
-{% block content %} {% endblock content %}
+{% load bootstrap4 %}
+
+<!doctype html>
+<html lang="rounded-start">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Электронная библиотека</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery="full" %}
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+        <a class="navbar-brand" href="{% url 'catalog:index'%}">
+            Электронная библиотека</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalog:books' 1 %}">
+                        Книги</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalog:audio_books'%}">
+                        Аудиокниги</a>
+                </li>
+                <form class="d-flex" role="search" action="{% url 'catalog:search_result' %}" method="GET">
+                    <input class="form-control me-2" name="q" type="search" placeholder="Книга или автор"
+                        aria-label="Search">
+                </form>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="navbar-text" }">Привет, {{ user.username }}.</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <main role="main" class="container">
+        <div class="pb-2 mb-2 border-bottom">
+            {% block page_header %}{% endblock page_header %}
+        </div>
+
+        <div>
+            {% block content %}{% endblock content %}
+        </div>
+    </main>
+</body>
+
+</html>

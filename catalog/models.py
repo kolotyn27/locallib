@@ -13,6 +13,11 @@ class Author(models.Model):
         verbose_name="Фамилия",
     )
 
+    def save(self):
+        self.first_name = self.first_name.lower()
+        self.last_name = self.last_name.lower()
+        return super(Author, self).save()
+
     def __str__(self):
         return "%s %s" % (self.first_name.capitalize(), self.last_name.capitalize())
 
@@ -23,6 +28,10 @@ class Genre(models.Model):
         help_text="Введите наименование жанра",
         verbose_name="Жанр",
     )
+
+    def save(self):
+        self.name = self.name.lower()
+        return super(Genre, self).save()
 
     def __str__(self):
         return self.name.capitalize()
@@ -49,11 +58,21 @@ class Book(models.Model):
         verbose_name="Описание",
     )
     file = models.FileField(
+        upload_to="files",
         verbose_name="Файл",
         null=True,
         blank=True,
     )
-    # cover = models.ImageField()
+    cover = models.ImageField(
+        upload_to="images",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
-        return self.name
+        return self.name.capitalize()
+
+    def save(self):
+        self.name = self.name.lower()
+        self.descript = self.descript.lower()
+        return super(Book, self).save()

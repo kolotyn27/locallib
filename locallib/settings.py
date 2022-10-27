@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "catalog",
     "users",
+    "bootstrap4",
     # Приложения по умолчанию
     "django.contrib.admin",
     "django.contrib.auth",
@@ -124,3 +125,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Основной url для управления медиафайлами
+MEDIA_URL = "/media/"
+
+# Путь хранения картинок и файлов
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")

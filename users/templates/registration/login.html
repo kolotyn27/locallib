@@ -1,13 +1,18 @@
 {% extends "catalog/base.html" %}
-
+{% load bootstrap4 %}
+{% block page_header %}
+<h2>Введите логин и пароль Вашего аккаунта.</h2>
+{% endblock page_header %}
 {% block content %}
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p>Ваше логин и пароль указаны неверно. Попробуйте еще раз.</p>
 {% endif %}
-<form method="post" action="{% url 'users:login' %}">
+<form method="post" action="{% url 'users:login' %}" class="form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">log in</button>
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Войти</button>
+    {% endbuttons %}
     <input type="hidden" name="next" value="{% url 'catalog:index' %}" />
 </form>
 {% endblock content %}

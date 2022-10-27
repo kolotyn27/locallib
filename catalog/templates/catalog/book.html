@@ -1,24 +1,36 @@
 {% extends "catalog/base.html" %}
 {% block content%}
-
-<h3>{{name}}</h3>
-<p>Автор: {{author}}</p>
-<p>Жанр: </p>
-{% for genre in genres.all %}
-<li>{{ genre }}</li>
-{% endfor %}
-<p>О книге:</p>
-<p>{{descript}}</p>
-<p>Файл для скачивания: {{file}}</p>
-
-<!-- <ul>
-    {% for book in books %}
-
-    <li>
-        <a href="{% url 'catalog:book' book.id %}">{{ book }}</a>
-    </li>
-    {% empty %}
-    <li>Книги еще не добавлены</li>
-    {% endfor %}
-</ul> -->
+<style>
+    .leftimg {
+        float: left;
+        /* Выравнивание по левому краю */
+        margin: 0 20px 20px 0;
+        /* Отступы вокруг картинки */
+    }
+</style>
+<div class="card mb-3">
+    <h3 class="card-header">
+        {{ name }}
+    </h3>
+    <div class="card-body">
+        <p><img src="/media/{{ cover }}" class="leftimg" alt="connect" style="max-height:300px">
+            О книге:
+        <p>
+            {{descript}}
+        </p>
+        </p>
+        Автор: {{author}}
+        <p>Жанр:
+            {% for genre in genres.all %}
+            {{ genre }}
+            {% endfor %}
+        </p>
+        {% if user.is_authenticated %}
+        <a href="/media/{{ file }}" class="btn btn-primary">epub</a>
+        <a href="" class="btn btn-danger disabled">fb2</a>
+        {% else %}
+        <a href="{% url 'users:login' %}">Файлы для скачивания доступны только для авторизированных пользователей.</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}
