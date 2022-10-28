@@ -50,12 +50,9 @@ def audio_books(request):
     return render(request, "catalog/audio_books.html")
 
 
-def search_result(request):
-    """страница результатов поиска"""
-    query = request.GET.get("q").lower()
+def search(query):
+    """Поиск книги по названию и автору"""
     query_list = query.split(" ")
-    print(query)
-    context = {}
     if len(query_list) > 1:
         books_list = Book.objects.filter(
             Q(name__contains=query)
@@ -73,9 +70,16 @@ def search_result(request):
             | Q(author__first_name__contains=query)
             | Q(author__last_name__contains=query)
         )
+    return books_list
+
+
+def search_result(request):
+    """страница результатов поиска"""
+    context = {}
+    query = request.GET.get("q").lower()
+    books_list = search(query)
     if books_list:
         context["books_list"] = books_list
-    # books_list = Book.objects.filter(author__icontains=query)
     context = {
         "books_list": books_list,
     }

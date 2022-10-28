@@ -21,6 +21,10 @@ class Author(models.Model):
     def __str__(self):
         return "%s %s" % (self.first_name.capitalize(), self.last_name.capitalize())
 
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
+
 
 class Genre(models.Model):
     name = models.CharField(
@@ -35,6 +39,10 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name.capitalize()
+
+    class Meta:
+        verbose_name = "Жанр"
+        verbose_name_plural = "Жанры"
 
 
 class Book(models.Model):
@@ -76,3 +84,7 @@ class Book(models.Model):
         self.name = self.name.lower()
         self.descript = self.descript.lower()
         return super(Book, self).save()
+
+    class Meta:
+        verbose_name = "Книга"
+        verbose_name_plural = "Книги"

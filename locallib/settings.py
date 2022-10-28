@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from socket import TCP_KEEPCNT
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "catalog",
     "users",
+    "bot",
     "bootstrap4",
     # Приложения по умолчанию
     "django.contrib.admin",
@@ -131,3 +133,7 @@ MEDIA_URL = "/media/"
 
 # Путь хранения картинок и файлов
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+# Настройки для Телеграмм - бота
+
+TOKEN = "5667460915:AAH9Byb0tkOdx0bQSm_Gzs2dEwa78ilTqbM"
