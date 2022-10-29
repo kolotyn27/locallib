@@ -1,18 +1,17 @@
-from unicodedata import name
 from django.core.management.base import BaseCommand
 from bot.models import TelegramUsers
 from catalog.views import search
+from catalog.models import Book
 
 from telegram.utils.request import Request
 from telegram import (
-    InlineQueryResultArticle,
-    InputTextMessageContent,
     Bot,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
-from telegram.ext import Updater, CommandHandler
-from telegram.ext import MessageHandler, Filters, InlineQueryHandler
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+from telegram.ext import MessageHandler, Filters,
+
 
 # функция обработки команды '/start'
 def start(update, context):
@@ -33,6 +32,18 @@ def unknown(update, context):
     )
 
 
+# функция обработки нажатия кнопки "скачать"
+def download(update, _):
+    query = update.callback_query
+    book = Book.objects.get(id=query.data)
+    query.answer()
+    query.message.reply_document(
+        filename=book.name + ".epub",
+        document=book.file,
+    )
+    # query.answer("download book {}".format(book.name.capitalize()))
+
+
 # функция обработки текстовых сообщений
 def echo(update, context):
     chat_id = update.message.chat.id
@@ -49,9 +60,13 @@ def echo(update, context):
     books_list = search(query)
     if books_list:
         for book in books_list:
-            update.message.reply_document(
-                filename=book.name + ".epub",
-                document=book.file,
+            button = [
+                [InlineKeyboardButton("скачать", callback_data=book.id)],
+            ]
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="{}\nАвтор: {}".format(book.name.capitalize(), book.author),
+                reply_markup=InlineKeyboardMarkup(button),
             )
     else:
         update.message.reply_text("По вашему запросу ничего не найдено")
@@ -96,7 +111,10 @@ class Command(BaseCommand):
         unknown_handler = MessageHandler(Filters.command, unknown)
         dispatcher.add_handler(unknown_handler)
 
+        # обработчик нажатия кнопки "скачать"
+        dispatcher.add_handler(CallbackQueryHandler(download))
+
         # запуск прослушивания сообщений
         updater.start_polling()
-        # обработчик нажатия Ctrl+C
+        # обработчик нажатия Ctrl+C (остановка бота)
         updater.idle()
