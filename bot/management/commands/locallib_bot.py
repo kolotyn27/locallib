@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from bot.models import TelegramUsers
 from catalog.views import search
 from catalog.models import Book
+from locallib.settings import TOKEN
 
 from telegram.utils.request import Request
 from telegram import (
@@ -10,7 +11,7 @@ from telegram import (
     InlineKeyboardMarkup,
 )
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
-from telegram.ext import MessageHandler, Filters,
+from telegram.ext import MessageHandler, Filters
 
 
 # функция обработки команды '/start'
@@ -78,9 +79,6 @@ class Command(BaseCommand):
     """Команда для запуска бота через manage.py"""
 
     def handle(self, *args, **kwargs):
-
-        # можно вынести TOKEN в файл с настройками
-        TOKEN = "5667460915:AAH9Byb0tkOdx0bQSm_Gzs2dEwa78ilTqbM"
 
         updater = Updater(token=TOKEN)
         dispatcher = updater.dispatcher
