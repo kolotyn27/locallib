@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.http import require_http_methods
 
 
-@require_http_methods(["GET", "POST"])
 def register(request):
     if request.method != "POST":
         form = UserCreationForm()
@@ -13,6 +12,6 @@ def register(request):
         if form.is_valid():
             new_user = form.save()
             login(request, new_user)
-            return redirect("catalog:index")
+            return redirect(request.META.get("HTTP_REFERER"))
     context = {"form": form}
     return render(request, "registration/register.html", context)

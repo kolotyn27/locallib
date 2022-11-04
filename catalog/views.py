@@ -18,12 +18,14 @@ def books(request, page):
     books_on_page = 4
     books_count = Book.objects.count()
     books = []
+    prev_page = page - 1
+    next_page = page + 1
     for book_id in range((page - 1) * books_on_page + 1, page * books_on_page + 1):
         if book_id <= books_count:
             books.append(Book.objects.get(id=book_id))
+        if book_id + 1 > books_count:
+            next_page = 0
 
-    prev_page = page - 1
-    next_page = page + 1
     context = {
         "books": books,
         "next_page": next_page,

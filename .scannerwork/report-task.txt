@@ -2,5 +2,5 @@ projectKey=locallib
 serverUrl=http://localhost:9000
 serverVersion=9.7.0.61563
 dashboardUrl=http://localhost:9000/dashboard?id=locallib
-ceTaskId=AYRB9lu4CDfXKIsRms6P
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYRB9lu4CDfXKIsRms6P
+ceTaskId=AYRCTIZiCDfXKIsRms6V
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYRCTIZiCDfXKIsRms6V

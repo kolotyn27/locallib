@@ -13,6 +13,5 @@
     {% buttons %}
     <button name="submit" class="btn btn-primary">Войти</button>
     {% endbuttons %}
-    <input type="hidden" name="next" value="{% url 'catalog:index' %}" />
-</form>
-{% endblock content %}
+    <input type="hidden" name="next" value="{{request.META.HTTP_REFERER}}" />
+    {% endblock content %}
