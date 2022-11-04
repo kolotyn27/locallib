@@ -1,17 +1,16 @@
-from django.core.management.base import BaseCommand
 from bot.models import TelegramUsers
-from catalog.views import search
-from catalog.models import Book
-from locallib.settings import TOKEN
-
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+from telegram.ext import MessageHandler, Filters
 from telegram.utils.request import Request
 from telegram import (
     Bot,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
-from telegram.ext import MessageHandler, Filters
+from django.core.management.base import BaseCommand
+from locallib.settings import TOKEN
+from catalog.views import search
+from catalog.models import Book
 
 
 # функция обработки команды '/start'
@@ -53,8 +52,8 @@ def echo(update, context):
     TelegramUsers.objects.get_or_create(
         external_id=chat_id,
         defaults={
-            "first_name": update.message.chat.first_name,
-            "last_name": update.message.chat.last_name,
+            "first_name": update.effective_chat.first_name,
+            "last_name": update.effective_chat.last_name,
         },
     )
     query = update.message.text.lower()

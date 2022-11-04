@@ -14,7 +14,6 @@ def books(request, page):
     # books_on_page можно вынети в настройки
     books_on_page = 4
     books_count = Book.objects.count()
-    # books = Book.objects.order_by("id")
     books = []
     for book_id in range((page - 1) * books_on_page + 1, page * books_on_page + 1):
         if book_id <= books_count:
@@ -56,13 +55,10 @@ def search(query):
     if len(query_list) > 1:
         books_list = Book.objects.filter(
             Q(name__contains=query)
-            | Q(author__first_name__contains=query_list[0])
-            & Q(author__last_name__contains=query_list[1])
-        )
-        books_list = Book.objects.filter(
-            Q(name__contains=query)
             | Q(author__first_name__contains=query_list[1])
             & Q(author__last_name__contains=query_list[0])
+            | Q(author__first_name__contains=query_list[0])
+            & Q(author__last_name__contains=query_list[1])
         )
     else:
         books_list = Book.objects.filter(
