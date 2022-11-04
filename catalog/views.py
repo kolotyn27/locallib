@@ -4,11 +4,13 @@ from .models import Book
 from django.contrib.auth.decorators import login_required
 
 
+@require_GET
 def index(request):
     """Домашняя страница"""
     return render(request, "catalog/index.html")
 
 
+@require_GET
 def books(request, page):
     """выводит список книг"""
     # books_on_page можно вынети в настройки
@@ -30,6 +32,7 @@ def books(request, page):
     return render(request, "catalog/books.html", context)
 
 
+@require_GET
 def book(request, book_id):
     """Выводит информацию о книге"""
     book = Book.objects.get(id=book_id)
@@ -44,6 +47,7 @@ def book(request, book_id):
     return render(request, "catalog/book.html", context)
 
 
+@require_GET
 def audio_books(request):
     """Страница с аудиокнигами"""
     return render(request, "catalog/audio_books.html")
