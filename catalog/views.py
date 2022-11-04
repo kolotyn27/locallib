@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Book
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET
 
 
 @require_GET
@@ -73,6 +74,7 @@ def search(query):
     return books_list
 
 
+@require_GET
 def search_result(request):
     """страница результатов поиска"""
     context = {}
