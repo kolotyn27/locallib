@@ -153,4 +153,7 @@ cython_debug/
 
 .DS_Store
 
-scannerwork/
+#временно удаляем файлы книг
+media/files
+.sonar_lock
+.report-task.txt
