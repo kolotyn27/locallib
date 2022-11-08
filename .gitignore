@@ -156,4 +156,4 @@ cython_debug/
 #временно удаляем файлы книг
 media/files
 .sonar_lock
-.report-task.txt
+.scannerwork/report-task.txt
